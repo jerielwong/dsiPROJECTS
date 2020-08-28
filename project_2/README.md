@@ -1,13 +1,25 @@
 # Ames, Iowa Housing Analysis and Modelling
 ***
 ## Problem Statement
-Heavily driven by the market, housing prices are a reflection of consumer behaviour that highlights preferences of the overall population. In this analysis, we will be contructing various ridge, lasso, and elastic net regression models to predict housing prices in Ames, Iowa. This will not only allow us to forecast future prices, but will also give us points of inference from which we can better understand consumer behaviour.
+Problem
 
-We will be utilizing the Ames Housing Dataset that documents housing sales from 2006 to 2010. From the location of the home to the interior finish of the garage, this dataset is extremely comprehensive and contains well over 80 features. The provided data dictionary is reflected below, along with an aditional column describing the corresponding data type.
+Difficulty in setting the price for a house when there are so many factors to be considered.
 
-The main metric we will be using to assess the models is RMSE (root mean squared error) as it allows us to accurately assess how a model performs both on train and test data. Although we are optimizing for RMSE, we will also be looking at adjusted R2 to compare between models. We will be limiting our features to between 25 to 30, in order to balance interpretability and accuracy. 
+For example, in a 2 factor analysis, for a same house size of 789 sq ft , one that is in the heart of the city and one at the suburbs, what should be the ideal selling price given sq ft and location.
 
-This analysis will largely benefit real estate companies interested in Ames to make better business decisions, but will also benefit individuals looking for a home by allowing them to understand how their preferences may affect the price of a home. In this analysis, we will be looking to answer the following questions:
+The difficulty increases as we factor more parameters, such as sq ft, location, amenities of the house, in this case 3 parameters.
+
+#Solution
+
+Through data science, we use historical data of realised prices of property and its parameters, we study the relationship and formulate a model/equation to predict the price of next house being produced.
+
+#Purpose / Why the need for such a model ?
+
+As a seller of a house, the self-interest, would not be setting a selling price worth less than what model predicts the selling price should be, i.e. not being short changed
+
+As a buyer of a house, the self-interest, would not be over-paying for a property.
+
+## Points to consider
 * What features are most relevant for a real estate developer to increase the price of a home?
 * In what ways can a real estate developer re-allocate flooring space to increase the price of a home?
 * What feature quality is the most relevant to the price of a home?
@@ -16,60 +28,7 @@ This analysis will largely benefit real estate companies interested in Ames to m
 
 We will determine this analysis successfuly if we can produce a model with 25-30 features that has a RMSE under 35000, and is able to provide meaningful answers to our business problems.
 ***
-## Contents
-* [Problem Statement](#Problem-Statement)
-* [Data Dictionary](#Data-Dictionary)
-* [Contents](#Contents)
 
-
-* 1. [Data Cleaning](#1.-Data-Cleaning)
-    *  1.1 [Library Imports](#1.1-Library-Imports)
-    *  1.2 [Dataset Imports](#1.2-Dataset-Imports)
-    *  1.3 [First Look (Head, Shape, Type, Null)](#1.3-First-Look-(Head,-Shape,-Type,-Null))
-    *  1.4 [Handling Null Values](#1.4-Handling-Null-Values)
-        * 1.4.1 [Categorical Null Values](#1.4.1-Categorical-Null-Values)
-        * 1.4.2 [Numerical Null Values](#1.4.2-Numerical-Null-Values)
-            * 1.4.2a [Lot Frontage](#1.4.2a-Lot-Frontage)
-            * 1.4.2b [Garage Yr Blt](#1.4.2b-Garage-Yr-Blt)
-            * 1.4.2c [Mas Vnr Area](#1.4.2c-Mas-Vnr-Area)
-    *  1.5 [Mapping of Ordinal Data](#1.5-Mapping-of-Ordinal-Data)
-    *  1.6 [Standardizing Column Names](#1.6-Standardizing-Column-Names)
-* 2. [EDA](#2.-EDA)
-    *  2.1 [EDA - Numerical](#2.1-EDA---Numerical)
-        * 2.1.1 [Numerical Above Threshold](#2.1.1-Numerical-Above-Threshold)
-        * 2.1.2a [Numerical Within Threshold 1](#2.1.2a-Numerical-Within-Threshold-1)
-        * 2.1.2b [Numerical Within Threshold 2](#2.1.2b-Numerical-Within-Threshold-2)
-        * 2.1.2c [Numerical Within Threshold 3](#2.1.2c-Numerical-Within-Threshold-3)
-    *  2.2 [EDA - Ordinal](#2.2-EDA---Ordinal)
-        * 2.2.1 [Ordinal Above Threshold](#2.2.1-Ordinal-Above-Threshold)
-        * 2.2.2 [Ordinal Within Threshold](#2.2.2-Ordinal-Within-Threshold)
-    *  2.3 [EDA - Nominal](#2.3-EDA---Nominal)
-        * 2.3.1 [Nominal Above Threshold](#2.3.1-Nominal-Above-Threshold)
-        * 2.3.2 [Nominal Within Threshold](#2.3.2-Nominal-Within-Threshold)
-* 3. [Feature Selection](#3.-Feature-Selection/Engineering)
-    *  3.1 [Low Correlation With 'saleprice'](#3.1-Low-Correlation-With-'saleprice')
-    *  3.2 [Reduction of Multicollinearity](#3.2-Reduction-of-Multicollinearity)
-* 4. [Model Selection](#4.-Model-Selection)
-    *  4.1 [Baseline Model](#4.1-Baseline-Model)
-    *  4.2 [Iterative Optimization of RMSE](#4.2-Iterative-Optimization-of-RMSE)
-    *  4.3 [Regression Metrics Analysis](#4.3-Regression-Metrics-Analysis)
-* 5. [Final Model Analysis](#5.-Final-Model-Analysis)
-    *  5.1 [Comparison of Baseline and Final Model](#5.1-Comparison-of-Baseline-and-Final-Model)
-    *  5.2 [Analysis of Final Model](#5.2-Analysis-of-Final-Model)
-* 6. [Kaggle Submission](#6.-Kaggle-Submission)
-    *  6.1 [Test Set Cleaning](#6.1-Test-Set-Cleaning)
-    *  6.2 [Test Set Prediction & Results](#6.2-Test-Set-Prediction-&-Results)
-
-* 7. [Conclusion](#7.-Conclusion)
-    *  7.1 [Business Recommendations](#7.1-Business-Recommendations)
-    *  7.2 [Limitations](#7.2-Limitations)
-    *  7.3 [Conclusion](#7.3-Conclusion)
-    *  7.4 [Further Work](#7.4-Further-Work)
-    *  7.5 [Citations](#7.5-Citations)
-
-
-* [Runtime](#Runtime)
-***
 ## Data Dictionary
 |#|Feature|Type|Description|Legend|
 |:---|:---|:---|:---|:---|
@@ -157,162 +116,25 @@ We will determine this analysis successfuly if we can produce a model with 25-30
 
 ***
 
-## Conclusion & Recommendations
-#### Findings
 
-* **Space**
-    * One square foot increase in above grade(ground) living area correlates with a saleprice increase of $17000
-
-    * One square foot increase in garage area correlates with a saleprice increase of $6800
-
-    * One square foot increase in lot frontage correlates with a saleprice **decrease** of $4300
-
-    * One square foot increase on the first floor correlates with a saleprice increase of $3900
-
-    * One square foot increase in lot area correlates with a saleprice increase of $3200
-
-    * One square foot increase in the basement correlates with a saleprice increase of $2000
-
-    * One square foot increase in masonry veneer correlates with a saleprice increase of $1900
-
-
-
-* **Quality**
-    * One grade increase in overall material and finish quality correlates with a saleprice increase of $17000
-
-    * One grade increase in kitchen quality correlates with a saleprice increase of $7900
-
-    * One grade increase in external material quality correlates with a saleprice increase of $6700
-    
-    * One grade increase in walkout or garden level basement walls correlates with a saleprice increase of $6300
-
-
-* **Location**
-    * A property in Northridge Heights correlates with a saleprice increase of $12000
-
-    * A property in Stone Brook correlates with a saleprice increase of $9700
-
-    * A property in Northridge correlates with a saleprice increase of $4900
-
-    * A property in Somerset correlates with a saleprice increase of $3800
-
-
-* **Type**
-
-    * A 1-story planned unit development built in 1946 or newer correlates with a saleprice **decrease** of $8100
-
-    * A 2-story planned unit development built in 1946 or newer correlates with a saleprice **decrease** of $5700
-
-    * A 2 family conversion property correlates with a saleprice **decrease** of $2000
-
-    * A 2-story home built in 1946 or newer correlates with a saleprice **decrease** of $240
-
-
-* **Features**
-    * Having one additional fireplace correlates with a saleprice increase of $6000
-
-    * A property with exterior covering of wood siding correlates with a saleprice **decrease** of $5200
-
-    * The more recently a property is remodelled correlates with a saleprice increase of $4500 per year.
-
-    * One grade increase in basement finish correlates with saleprice increase of $4300
-
-    * One grade increase in garage finish correlates with a saleprice increase of $4100
-
-    * Having a hip roof style correlates with a saleprice increase of $3900
-
-    * Having a secondary exterior covering wood correlates with a saleprice increase of $3700
-
-    * One additional bathroom correlates with a saleprice increase of $2700
-
-    * Not having a garage correlates with a saleprice increase of $1800
-
-    * Having a secondary exterior covering of hard board correlates with a saleprice **decrease** of $990
-
-    * Not having masonry veneer correlates with a saleprice increase of $980
-
----
-
-#### Interpretation
-
-* **Real Estate Developers (Primary Stakeholders)**
-
-    * Build additional floors for livable space if the cost is less than $17000 per square foot
-
-    * Increase garage area if cost is less than $6800 per square foot
-
-    * Increase first story space if cost is less than $3900 per square foot
-
-    * Increase lot area if cost is less than $3200 per square foot
-
-    * Increase basement area if cost is less than $2000 per square foot
-
-    * Increase masonry veneer if cost is less than $1900 per square foot
-
-    * Increase quality of material and finish if cost per grade is less than $17000
-
-    * Increase quality of kitchen if cost per grade is less than $7900
-
-    * Increase quality of external material if cost per grade is less than $6700
-
-    * Avoid developing planned unit development and 2 family conversion properties.
-
-    * Add an additional fireplace if the cost is less than $6000
-
-    * Avoid exterior covering of wood unless it can reduce cost by more than $5200
-
-Although these are general actions that real estate developers can take, it should be noted that it may not be applicable for all cases. For example, we see that with fireplaces the saleprice does not significantly increase beyond 2 fireplaces. This means that developers should only consider increasing or adding features when these features reside are on the lower side of the spectrum.
-
-* **Individuals Looking for a Home (Secondary Stakeholders)**
-
-    * Buy a house without a fireplace and install it on your own as the cost will be significantly lower. [[1]](#7.3-Citations)
-    * If on a tight budget, do consider planned development units as they can fetch for lower prices.
-    * It may be wise to find a property with an unfurnished kitchen if you can keep furnishing costs low.
-    * Avoid locations such as Northridge, Northridge Heights, Stone Brook, and Somerset if on a tight budget.
-
----
-
-#### Answers to Questions
-
-* What features are most relevant for a real estate developer to increase the price of a home?
-    * Quality of walkout or garden level basement walls
-    * Fireplace
-    * Quality of garage finish
-* In what ways can a real estate developer re-allocate flooring space to increase the price of a home?
-    * Increase above ground living area
-    * Increase garage area
-    * Reduce lot frontage
-* What feature quality is the most relevant to the price of a home?
-    * Overall material and finish quality
-    * External material quality
-* What locations should prospective home-owners avoid if they are on a tight budget?
-    * Northridge Heights
-    * Stone Brook
-    * Northridge
-    * Somerset
-* What features should home-owners exclude to reduce cost?
-    * Fireplace
-    * Basement Finish
 ***
 #### Conclusion
 
-In conclusion, this analysis has successfully identified key features for developers and prospective home-owners alike. A final regression model was also found with 30 features, having a RMSE within pre-defined limits (under 35000). 
+Conclusion of pricing features
 
-Our final model consisted of 30 features utilizing a ordinary least squares model. Although our final model may have been slightly underfit, for a kaggle submission it is better to err on the side of underfitting due to the variability of a test dataset.
+After analysis of the features 
+The features that are useful for predict price includes the following 
+1st Floor SF 
+Gr Liv Area 
+Garage Area
+Most important feature would be Overall Qual of the house that has the highetst impact on the house 
 
-The findings suggests that homeowners tend to heavily favor living area above ground in favor of living area underground. It also suggests that many homeowners are willing to pay for better overall quality/materials. The data also points out that one of the best features for a developer to include is a fireplace.
+Limitations
 
-Overall this analysis has beeen a success, however there is always room for improvement.
+Hyperparameter tuning: A predefined range of values was passed in to tune the hyperparameters for our regularisation models. There is a possibility that there are values outside of the predefined range that could have produced better results.
+
+Other external factors not taken into account: The value of a house is not purely determined by the features we have analysed. There are many other factors which could affect house demand and supply, such as the current economic climate, housing policies, demographic changes, proximity of the house to amenities like malls and schools, and so on. Predictions from our model are limited in its accuracy as it does not consider these factors.
+
+Limited timeframe: Our data comprised only transactions between 2006–2010. This is a pretty short timeframe, which makes it hard to capture actual general trends in sale prices of houses in Ames. The housing market within the 2006-2010 timeframe could be very different from how it is in present time.
+
 ***
-#### Further Work
-
-* It may be worth exploring if constructing various models split by location, or housing type may give better results. For example, constructing a model for each housing type to see if we can more accurately pinpoint saleprice.
-
-
-* Polynomial features could be modelled individually against saleprice to determine if they have a polynomial relationship with saleprice.
-
-
-* K-nearest neighbors could be used to impute missing ordinal data.
-
-
-* Iteration and sampling of RMSE values could be applied and then a categorization model could be built to classify these features as 'useful' or 'not useful'.
