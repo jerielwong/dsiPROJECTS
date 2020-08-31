@@ -45,16 +45,16 @@ SAT and ACT participation rates have an inverse relationship, as seen from the g
 
 ## Data Dictionary
 
+
 |Feature|Type|Dataset|Description|
 |---|---|---|---|
-|state|object|ACT/SAT|Name of U.S. state|
-|sat_17_participation|float|2017 SAT|Participation rate in SAT for each state|
-|sat_17_read_write|int|2017 SAT|Average score for the Evidence-based Reading and Writing (EBRW) section of SAT, between 200 and 800|
-|sat_17_math|int|2017 SAT|Average score for the Math section of SAT, between 200 and 800|
-|sat_17_total|int|2017 SAT|Total SAT score, combining EBRW and Math sections, between 400 and 1600|
-|act_17_participation|float|2017 ACT|Participation rate in ACT for each state|
-|act_17_english|float|2017 ACT|Average score for the English section of ACT, between 1 and 36|
-|act_17_math|float|2017 ACT|Average score for the Math section of ACT, between 1 and 36|
-|act_17_reading|float|2017 ACT|Average score for the Reading section of ACT, between 1 and 36|
-|act_17_science|float|2017 ACT|Average score for the Science section of ACT, between 1 and 36|
-|act_17_composite|float|2017 ACT|Composite score of ACT, averaging scores from four sections, between 1 and 36|
+|state|object|SAT|State where students took the exam|
+|sat_parti_2017|float|SAT|Participation rate of each state in 2017 for SAT| 
+|sat_erw_2017|float|SAT|Evidence-Based Reading and Writing score of each state in 2017 for SAT, between 200 and 800|
+|sat_math_2017|float|SAT|Math score of each state in 2017 for SAT, between 200 and 800|
+|act_parti_2017|float|ACT|Participation rate of each state in 2017 for ACT|
+|act_english_2017|float|ACT|English score of each state in 2017 for ACT, between 1 and 36|
+|act_math_2017|float|ACT|Math score of each state in 2017 for ACT, between 1 and 36|
+|act_reading_2017|float|ACT|Reading score of each state in 2017 for ACT, between 1 and 36|
+|act_science_2017|float|ACT|Science score of each state in 2017 for ACT, between 1 and 36|
+|act_composite_2017|float|ACT|Composite score of each state in 2017 for ACT, averaging scores from four sections, between 1 and 36|
