@@ -1,23 +1,25 @@
 # Ames, Iowa Housing Analysis and Modelling
 ***
-## Problem Statement
+
 Problem
+===============================================
 
-Difficulty in setting the price for a house when there are so many factors to be considered.
+Housing prices have mostly been transacted, over the counter, where buyer and seller both agrees that should be the market price, based on their indivudal interpretation. Due to market inefficiencies, such as market knowledge and availbility of pricing tools, sellers might have been selling under the market price, and buyers might have been over paying the market price.
 
-For example, in a 2 factor analysis, for a same house size of 789 sq ft , one that is in the heart of the city and one at the suburbs, what should be the ideal selling price given sq ft and location.
+But what is market price ? No one can accurately say what the market price is down to the dollar and cents.
 
-The difficulty increases as we factor more parameters, such as sq ft, location, amenities of the house, in this case 3 parameters.
+Our team seeks to find the market price for the next property being listed on the market. Through analysing characteristics of the house and historical transacted prices, we study the relationship and formulate a model/equation to predict to the market price.
 
-#Solution
+===============================================
 
-Through data science, we use historical data of realised prices of property and its parameters, we study the relationship and formulate a model/equation to predict the price of next house being produced.
+Solution
+===============================================
 
-#Purpose / Why the need for such a model ?
+With such a pricing model, it will benefit the chain of participants in the real estate industry, from developers to retail clients, because with a price efficient model, it will facilitate more transacations and smoother transactions, as participants cannot be contesting the price model, unless they have empirical results and analysis done.
 
-As a seller of a house, the self-interest, would not be setting a selling price worth less than what model predicts the selling price should be, i.e. not being short changed
+For this pricing model, we will use Linear Regression model, and regularization techniques, such as Lasso and Ridge penatly, if there is an over or underfit in the model.
 
-As a buyer of a house, the self-interest, would not be over-paying for a property.
+We will be using Ames Housing Dataset, which contains details of the house that has been transacted, such as, price sold, sq feet, pool quality, basement quality etc. These are qualitative and quantitaive details of the house and there are up to 70 of such qualities collected in the dataset.
 
 ## Points to consider
 * What features are most relevant for a real estate developer to increase the price of a home?
@@ -118,23 +120,28 @@ We will determine this analysis successfuly if we can produce a model with 25-30
 
 
 ***
-#### Conclusion
+Conclusion¶
+This model will do reasonably well in estimating home prices in Ames (in the context of advising home sellers on deciding on homeprices). It also gave us valuable insights in terms of the factors that will affect home prices in Ames. Hence, I would think that this model has largely addressed our business problems, which is able to predict a fair market price for all market participants, throughout the whole business pyramid, Business to Consumers.
+Business Recommendations
+As expected, a higher/better value in these features will almost always increase house value: 1st Flr SF, Gr Liv Area and TotRms AbvGrd. As the house area is bigger, sale price will naturally increase, as the idea of purchasing a house, is about the area, no one would pay a high price for a small little cell.
 
-Conclusion of pricing features
+Suprisingly from the model, parameters related to Garage, such as, Garage Type, Garage Cars, Garage Finish. This could be an anamoly, as the people in Iowa generally have a strong preference for garage hence it is more weighted in that area.
 
-After analysis of the features 
-The features that are useful for predict price includes the following 
-1st Floor SF 
-Gr Liv Area 
-Garage Area
-Most important feature would be Overall Qual of the house that has the highetst impact on the house 
+Going forward, market researchers will know which parameters to bring forward to the clients, to convince what are the factors that can increase the market price of the house..
+
+top10_cont_feat = ['Mas Vnr Area', 'Total Bsmt SF', '1st Flr SF', 'Gr Liv Area', 'Garage Area', 'Year Built', 'Year Remod/Add', 'Full Bath', 'TotRms AbvGrd', 'Garage Cars', 'Overall Qual']
+
+top10_cate_feat = ['Bldg Type','House Style','Heating','Garage Type','Foundation', 'Exterior 1st','Exterior 2nd','Electrical','Condition 1','Condition 2']
+
+top_ordi_feat = ['Exter Qual', 'Bsmt Qual', 'Kitchen Qual', 'Fireplace Qu', 'Garage Finish']
 
 Limitations
-
 Hyperparameter tuning: A predefined range of values was passed in to tune the hyperparameters for our regularisation models. There is a possibility that there are values outside of the predefined range that could have produced better results.
 
 Other external factors not taken into account: The value of a house is not purely determined by the features we have analysed. There are many other factors which could affect house demand and supply, such as the current economic climate, housing policies, demographic changes, proximity of the house to amenities like malls and schools, and so on. Predictions from our model are limited in its accuracy as it does not consider these factors.
 
-Limited timeframe: Our data comprised only transactions between 2006–2010. This is a pretty short timeframe, which makes it hard to capture actual general trends in sale prices of houses in Ames. The housing market within the 2006-2010 timeframe could be very different from how it is in present time.
+Limited timeframe: Our data comprised only transactions between 2006–2010. This is a pretty short timeframe, which makes it hard to capture actual general trends in sale prices of houses in Ames. The housing market within the 2006-2010 timeframe could be very different from how it is in present time. Missing values: There were numerous missing values for which we did a convenient imputation for. This has definitely introduced a certain level of inaccuracy into our analysis.
+
+Limited generalisability to houses outside of Ames, Iowa: The predictive model we've built only applies to the houses in Ames and will not be accurate when applied to houses in other cities or countries. To make it more applicable across the board, we could perhaps remove features specific to houses in the U.S. or Ames, such as replacing Ames' neighborhood with a metric describing a property's distance from the city centre, or whether a property is near a buzzing commercial hub, etc.
 
 ***
